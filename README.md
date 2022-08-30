@@ -6,7 +6,7 @@ docker build -t lionel/auth .
 
 express validator : check req.body. Les retours d'erreurs ne sont pas standards, mais sous forme de []
 
-express-async-errors : il y a juste à l'installer!
+express-async-errors : il y a juste à l'installer! Et permet de faire du async sur les routes (mais why ? -> A creuser)
 
 
 ## MEMO 
