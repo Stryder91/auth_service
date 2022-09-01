@@ -3,9 +3,9 @@ import { body, validationResult } from 'express-validator';
 import { BadRequestError } from '../errors/bad-request-error';
 import { RequestValidationError } from '../errors/request-validation-error';
 import { User } from '../models/user';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
-
 
 router.post('/api/users/signup', [
 	body('email')
@@ -35,6 +35,17 @@ async (req: Request, res: Response) => {
 	const user = User.build({email, password})
 	await user.save();
 
+	// generate jwt
+	const userjwt = jwt.sign({
+		id: user.id,
+		email: user.email
+	}, process.env.JWT_KEY!); 
+
+	// stored it on session object
+	req.session = {
+		jwt : userjwt
+	}
+	
 	// Something created
 	res.status(201).send(user)
 
