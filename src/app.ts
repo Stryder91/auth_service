@@ -7,9 +7,10 @@ import { currentUserRouter } from "./routes/current-user";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
-import { errorHandler, NotFoundError } from "@common91120/common";
+import { errorHandler, NotFoundError, currentUser } from "@common91120/common";
 
 import 'dotenv/config'
+import { createProductRouter } from "./routes/create";
 
 const app = express();
 app.set('trust proxy', true); 
@@ -20,11 +21,14 @@ app.use(
   })
 )
 
+app.use(currentUser);
 app.use(json());
 app.use(signupRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
 app.use(currentUserRouter);
+
+app.use(createProductRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
